@@ -1,0 +1,359 @@
+// echos IN DER .H-DATEI
+void game_refreshtower(int _sid);
+void game_createtower(int _sid);
+void game_deletetower(int _sid);
+void game_placetower(int _sid);
+void game_deplacetower(int _sid);
+void game_tick(int _sid);
+void game_leavegame(int _sid);
+void game_placetoweronold(int _sid);
+void game_startplacing(int _sid);
+
+
+
+
+void Server::game_refreshtower(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_refreshtower]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_refreshtower]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_REFRESHTOWER);
+	
+	SendGame(&pb, game->getID(), 1, _sid);
+	pb.cleanup();
+}
+
+void Server::game_createtower(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_createtower]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_createtower]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_CREATETOWER);
+	
+	SendGame(&pb, game->getID(), 1, _sid);
+	pb.cleanup();
+}
+
+void Server::game_deletetower(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_deletetower]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_deletetower]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_DELETETOWER);
+	
+	SendGame(&pb, game->getID(), 1, _sid);
+	pb.cleanup();
+}
+
+void Server::game_placetower(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_placetower]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_placetower]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_PLACETOWER);
+	
+	int send = SendGame(&pb, game->getID());
+	printf("SERVER: [game_placetower] %i Daten versendet\n", send);
+	pb.cleanup();
+}
+
+void Server::game_deplacetower(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_deplacetower]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_deplacetower]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_DEPLACETOWER);
+	
+	SendGame(&pb, game->getID());
+	pb.cleanup();
+}
+
+void Server::game_tick(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_tick]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_tick]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_TICK);
+	
+	SendGame(&pb, game->getID(), 1, _sid);
+	pb.cleanup();
+}
+
+void Server::game_leavegame(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_leavegame]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_leavegame]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(SERVER_ANSWER_LEAVEGAME);
+	
+	SendGame(&pb, game->getID(), 1, _sid);
+	pb.cleanup();
+}
+
+void Server::game_placetoweronold(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_placetoweronold]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_placetoweronold]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_PLACETPOWERONOLD);
+	
+	SendGame(&pb, game->getID());
+	pb.cleanup();
+}
+
+void Server::game_startplacing(int _sid)
+{
+	Player * player = pm.getPlayer(_sid);
+	
+	if (player == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_startplacing]Spieler '%i' wurde nicht gefunden\n", _sid);
+		return;
+	}
+
+	GameLobby * game = player->linkgedGame();
+	
+	if (game == NULL)
+	{
+		timestamp();
+		printf("SERVER: [game_startplacing]Spiel wurde nicht gefunden\n");
+		return;
+	}
+	
+	pb.copyPacket(packet);
+	pb.setOpcode(GAME_ANSWER_STARTPLACING);
+
+	//SendGame(pb, game->getID());
+	Send(_sid, pb.getPacket(), pb.getSize());
+	pb.cleanup();
+}
+
+
+
+
+
+
+
+
+
+
+
+// Client hat einen Tower bewegt
+		case (GAME_REQUEST_REFRESHTOWER):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_REFRESHTOWER\n");
+			
+			game_refreshtower(_sid);
+			break;
+		}
+		
+		// Client hat einen Tower ausgesucht
+		case (GAME_REQUEST_CREATETOWER):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_CREATETOWER\n");
+			
+			game_createtower(_sid);
+			break;
+		}
+		
+		// Client möchte einen Tower löschen
+		case (GAME_REQUEST_DELETETOWER):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_DELETETOWER\n");
+			
+			game_deletetower(_sid);
+			break;
+		}
+		
+		// Client möchte einen Tower aufstellen
+		case (GAME_REQUEST_PLACETOWER):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_PLACETOWER\n");
+			
+			game_placetower(_sid);
+			break;
+		}
+		
+		// Client möchte einen Tower neu setzen
+		case (GAME_REQUEST_DEPLACETOWER):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_DEPLACETOWER\n");
+			
+			game_deplacetower(_sid);
+			break;
+		}
+		
+		// Client "Tickt" das aktuelle Spiel
+		case (GAME_REQUEST_TICK):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_TICK\n");
+			
+			game_tick(_sid);
+			break;
+		}
+		
+		// Client möchte ein laufendes Game verlassen
+		case (GAME_REQUEST_LEAVEGAME):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_LEAVEGAME\n");
+			
+			game_leavegame(_sid);
+			break;
+		}
+		
+		// Client möchte einen Tower auf einen bereits besetzten Platz aufstellen
+		case (GAME_REQUEST_PLACETPOWERONOLD):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_PLACETPOWERONOLD\n");
+			
+			game_placetoweronold(_sid);
+			break;
+		}
+		
+		// Client/Host möchte ein Spiel starten
+		case (GAME_REQUEST_STARTPLACING):
+		{
+			timestamp();
+			printf("DEGUG: GAME_REQUEST_STARTPLACING\n");
+			
+			game_startplacing(_sid);
+			break;
+		}
+		
