@@ -29,6 +29,7 @@
 *.out
 *.app
 
+JavaClass/.gradle/
 JavaClass/build/
 JavaClass/gradle/
 JavaClass/gradlew
