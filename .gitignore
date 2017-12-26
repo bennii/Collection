@@ -28,9 +28,3 @@
 *.exe
 *.out
 *.app
-
-JavaClass/.gradle/
-JavaClass/build/
-JavaClass/gradle/
-JavaClass/gradlew
-JavaClass/gradlew.bat
