@@ -5,3 +5,6 @@ come across these and learn a thing or two. I will keep adding projects / code s
 as I find them in my backups. And I have a lot of backups to sort out.
 
 Happy coding!
+
+See the LICENSE file for license informations. Everything in this Repository is available
+with the mentioned license.
