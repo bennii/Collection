@@ -1,0 +1,47 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Gamelobby Build",
+            "command": "make",
+            "args": [
+                "--directory=${workspaceFolder}/Gamelobby Server/src/"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Gamelobby Clean",
+            "command": "make",
+            "args": [
+                "--directory=${workspaceFolder}/Gamelobby Server/src/", "clean"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Gamelobby Run",
+            "command": "${workspaceFolder}/Gamelobby Server/src/server",
+            "args": [ ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}
