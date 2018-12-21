@@ -4,7 +4,9 @@ CC_FLAGS = -w -Wall -g -lsocket -lnsl -I/usr/include
  
 # File names
 EXEC = server
-SOURCES = $(wildcard *.cpp)
+BUILDDIR = build
+SOURCEDIR = .
+SOURCES = $(wildcard $(SOURCEDIR)/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
  
 # Main target
