@@ -1,0 +1,30 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "client",
+                "projectName": "client",
+                "workingDirectory": "/media/benjamin/Mittel/Github/Collection/DummyClient/client",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "client",
+                "projectName": "client",
+                "workingDirectory": "/media/benjamin/Mittel/Github/Collection/DummyClient/client",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
