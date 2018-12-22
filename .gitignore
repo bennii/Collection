@@ -29,3 +29,6 @@
 *.exe
 *.out
 *.app
+/DummyClient/nbproject/private/
+/DummyClient/build/
+/DummyClient/dist/

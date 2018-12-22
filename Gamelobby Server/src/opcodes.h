@@ -4,10 +4,8 @@
 /*	Das hier sind die Opcodes, die für die Kommunikation zwischen
 	Server und Clienten genutzt werden. NUR ÄNDERN WENN DU WIRKLICH
 	WEIßT, WAS DU DA MACHST! ANSONSTEN KOMMST DU IN DIE HÖLLE!
-	
+
 	|short->opcode|short->size| sind in jedem Packet enthalten und umfassen 4 Bytes (= 2 x unsigned short)
-	
-	 Wichtige Notiz an unseren Freund oscar! GameMode muss er noch einbinden, ansonsten sollte alles laufen.
 */
 
 // Misc.
