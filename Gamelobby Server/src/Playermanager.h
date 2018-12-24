@@ -7,20 +7,20 @@
 
 class PlayerManager
 {
-public:
-	PlayerManager(void);
-	~PlayerManager(void);
+  public:
+    PlayerManager(void);
+    ~PlayerManager(void);
 
-	Player * createPlayer(int _playerid, int _senderid, const char * _nick, const char * _ip, unsigned short _port);
-	Player * getPlayer(int _playerid);
-	void	 deletePlayer(int _playerid);
+    Player *createPlayer(int _playerid, int _senderid, const char *_nick, const char *_ip, unsigned short _port);
+    Player *getPlayer(int _playerid);
+    void deletePlayer(int _playerid);
 
-	int		 getPlayerAmount(void);
-	
-	std::vector<Player *> & getList(void);
+    int getPlayerAmount(void);
 
-private:
-	std::vector<Player *> list;
+    std::vector<Player *> &getList(void);
+
+  private:
+    std::vector<Player *> list;
 };
 
 #endif

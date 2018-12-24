@@ -2,26 +2,26 @@
 
 int main(void)
 {
-	Server * server = new Server();
+    Server *server = new Server();
 
-	if((server->Create(22350)))
-	{
+    if ((server->Create(22350)))
+    {
         timestamp();
-		printf("MAIN: Server laeuft auf Port: %i. \n", server->GetPort());
-	}
+        printf("MAIN: Server laeuft auf Port: %i. \n", server->GetPort());
+    }
     else
     {
         return -1;
     }
 
-	while(server->IsRunning())
-	{
-		server->Tick(1, 1);
-	}
+    while (server->IsRunning())
+    {
+        server->Tick(1, 1);
+    }
 
-	server->Destroy();
+    server->Destroy();
 
-	delete server;
+    delete server;
 
     return 0;
 }

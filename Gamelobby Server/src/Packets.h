@@ -8,15 +8,15 @@
 
 const int MAX_PACKETSIZE = 8192;
 
- typedef struct PACKET
+typedef struct PACKET
 {
-	unsigned short opcode;						// wie das Packet verarbeitet werden soll	(2 Byte)
-	unsigned short size;						// die anzahl an Bytes in data				(2 Byte)
-	unsigned char data[MAX_PACKETSIZE - 4];		// Datenarray							(8188 Bytes)
+    unsigned short opcode;                  // wie das Packet verarbeitet werden soll	(2 Byte)
+    unsigned short size;                    // die anzahl an Bytes in data				(2 Byte)
+    unsigned char data[MAX_PACKETSIZE - 4]; // Datenarray							(8188 Bytes)
 
-	PACKET();
+    PACKET();
 } typPACKET;
 
- void printPacket(PACKET * p);					// benötigt einen Ausgabe-Stream, z.B. eine debug-console
+void printPacket(PACKET *p); // benötigt einen Ausgabe-Stream, z.B. eine debug-console
 
 #endif
