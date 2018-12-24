@@ -19,7 +19,7 @@ void Packetreader::cleanup(void)
 {
 	if (packet == NULL) return;
 
-	memset(packet, 0, sizeof(packet));
+	memset(packet, 0, sizeof(*packet));
 	index = 0;
 }
 
@@ -40,7 +40,7 @@ unsigned short Packetreader::getOpcode()
 {
 	if (packet == NULL) return 0;
 
-	return packet->opcode;	
+	return packet->opcode;
 }
 
 unsigned char Packetreader::readByte()
@@ -76,10 +76,10 @@ unsigned long Packetreader::readDword()
 float Packetreader::readFloat()
 {
 	if (packet == NULL || index + sizeof(float) > packet->size) return 0.0;
-	
+
 	unsigned char * pointer = (unsigned char*)packet->data + index;
 	index += sizeof(float);
-	
+
 	return *((float *)pointer);
 }
 
@@ -89,7 +89,7 @@ double Packetreader::readDouble()
 
 	unsigned char * pointer = (unsigned char*)packet->data + index;
 	index += sizeof(double);
-	
+
 	return *((double *)pointer);
 }
 
@@ -98,14 +98,14 @@ char * Packetreader::readString()
 	if (packet == NULL) return NULL;
 
 	unsigned short len = readWord();
-	
+
 	if (index + len * sizeof(unsigned char) > packet->size) return (char *)"empty";
-	
+
 	char * string = new char[len];
 	char * pointer = (char *)packet->data + index;
 
 	memset(string, 0, len + 1);
-	
+
 	for(int i = 0; i < len; i++){
 		string[i] = *(pointer + i);
 	}

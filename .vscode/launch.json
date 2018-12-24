@@ -11,12 +11,6 @@
             "mainClass": "dummyclient.App"
         },
         {
-            "type": "java",
-            "name": "CodeLens (Launch) - DummyClient",
-            "request": "launch",
-            "mainClass": "dummyclient.DummyClient"
-        },
-        {
             "name": "(gdb) Launch Gamelobby Server",
             "type": "cppdbg",
             "request": "launch",

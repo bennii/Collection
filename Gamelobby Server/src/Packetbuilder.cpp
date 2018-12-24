@@ -33,7 +33,7 @@ void Packetbuilder::setOpcode(unsigned short opcode)
 
 void Packetbuilder::cleanup()
 {
-	memset(packet, 0, sizeof(packet));
+	memset(packet, 0, sizeof(*packet));
 	index = 0;
 }
 

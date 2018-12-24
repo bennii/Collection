@@ -9,15 +9,15 @@ int main(void)
         timestamp();
 		printf("MAIN: Server laeuft auf Port: %i. \n", server->GetPort());
 	}
-	
-	
+
 	while(server->IsRunning())
-	{	
+	{
 		server->Tick(1, 1);
 	}
 
 	server->Destroy();
 
 	delete server;
-	return 0;
+
+    return 0;
 }
