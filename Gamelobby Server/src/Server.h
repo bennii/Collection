@@ -10,7 +10,10 @@
 #include "Packetreader.h"
 #include "Packetbuilder.h"
 #include "Matchmaking.h"
+
+#ifdef __linux__
 #include "/usr/include/PCSC/wintypes.h"
+#endif
 
 /*
  * Zeitstempel für Debugausgaben.
@@ -28,7 +31,7 @@ class Server : public SimpleServer
 public:
 					Server(void);
 					~Server(void);
-	
+
 	bool			Tick(long sec, long usec);										// Update (Daten senden/Empfangen etc.)
 
 protected:
@@ -37,7 +40,7 @@ protected:
 	virtual bool 	OnConnect(int _sid, const char * _actualIp, unsigned short _actualPort);
 	virtual void 	OnDisconnect(int _sid);											// Verbindung des Users _sid beendet
 	virtual int 	OnData(int _sid, char * _data, size_t _size);					// Datenpaket vom User _sid empfangen
-	
+
 	int				SendAll(Packetbuilder * _builder);								// Diese Methode sendet allen eingelogten Usern das Datenpaket
 	int				SendGame(Packetbuilder * _builder, int _gameid);				// Diese Methode wird genutzt, wenn allen Spielern eines Games ein Packet gesendet werden soll.
 	int				SendGame(Packetbuilder * _builder, int _gameid, int _n, ...);	// Diese Methode wird genutzt, wenn Spieler ausgelassen werden sollen (ID übergeben).
