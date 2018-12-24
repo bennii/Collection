@@ -106,10 +106,10 @@ int Server::OnData(int _sid, char * _data, size_t _size)
 {
 	static int c = 0;
 	packet = (PACKET *)_data;
+
 	printPacket(packet);
 
 	pr.setPacket(packet);
-	int size = pr.getSize();
 
 	switch(packet->opcode)
 	{
@@ -129,7 +129,7 @@ int Server::OnData(int _sid, char * _data, size_t _size)
 			char 	*nick		= pr.readString();
 			char 	*password 	= pr.readString();
 
-			login(_sid, nick, password);
+			this->login(_sid, nick, password);
 			break;
 		}
 
@@ -239,18 +239,18 @@ int Server::OnData(int _sid, char * _data, size_t _size)
 		}
 
 		// Da ist etwas beim Zusammenbauen der Pakete im Clienten falsch gelaufen
-		default:
-		{
-			timestamp();
-			printf("DEBUG: UNBEKANNTES DATENPAKET! WAS SOLL ICH NUR MACHEN?\n");
+		// default:
+		// {
+		// 	timestamp();
+		// 	printf("DEBUG: UNBEKANNTES DATENPAKET! WAS SOLL ICH NUR MACHEN?\n");
 
-			printPacket(packet);
-			break;
-		}
+		// 	// printPacket(packet);
+		// 	break;
+		// }
 	}
 
-	pr.cleanup();
-	return size;
+    // Das muss überarbeitet werden
+	return _size;
 }
 
 // Ein Paket an alle verbundenen User senden

@@ -1,8 +1,6 @@
 package network;
 
-import java.io.IOException;
-import java.net.SocketAddress;
-import java.net.InetAddress;
+
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
@@ -47,11 +45,11 @@ public class Client {
 
     public void sendRaw() {
         try {
-            byte[] data = new String("TEST").getBytes();
+            byte[] data = {8, 10, 1, 1, 'a'};
+
             ByteBuffer buffer = ByteBuffer.wrap(data);
 
-            Future<Integer> result = this.client.write(buffer);
-            result.get();
+            this.client.write(buffer);
         } catch (Exception exc) {
 
         }
@@ -62,6 +60,5 @@ public class Client {
     }
 
     public void close() {
-        this.client.cancel(false);
     }
 }

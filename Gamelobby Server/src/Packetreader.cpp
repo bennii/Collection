@@ -15,11 +15,16 @@ void Packetreader::setPacket(PACKET * p)
 	packet = p;
 }
 
+// Diese Methode muss vielleicht entfernt werden
+// oder mit einem delete packet arbeiten. Das würde
+// aber in die Datenkontrolle der darüber liegenden
+// Ebene eingreifen und könnte potentiell Fehler
+// verursachen.
 void Packetreader::cleanup(void)
 {
 	if (packet == NULL) return;
 
-	memset(packet, 0, sizeof(*packet));
+	memset(packet, 0, sizeof(PACKET));
 	index = 0;
 }
 

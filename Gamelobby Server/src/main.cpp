@@ -9,6 +9,10 @@ int main(void)
         timestamp();
 		printf("MAIN: Server laeuft auf Port: %i. \n", server->GetPort());
 	}
+    else
+    {
+        return -1;
+    }
 
 	while(server->IsRunning())
 	{

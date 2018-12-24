@@ -9,7 +9,7 @@ struct TSocket
 #ifdef __linux__
     int s;
 #endif
-	
+
 	char recvBuffer[MAX_BUFFER_SIZE];
 	int recvBufferIndex;
 	char sendBuffer[MAX_BUFFER_SIZE];
@@ -28,12 +28,12 @@ struct TConnection
 bool InitializeWinsock()
 {
 	WSADATA wd = {0};
-	
+
 	if(WSAStartup(MAKEWORD(2, 2), &wd) != 0)
 	{
 		return false;
 	}
-	
+
 	if(LOBYTE(wd.wVersion) < 2)
 	{
 		WSACleanup();
@@ -55,7 +55,7 @@ void DeinitializeWinsock()
 struct SimpleServerData
 {
 	SOCKET listenSocket;
-	
+
 	addrinfo hints;
 	addrinfo * addrInfo;
 	sockaddr_in remoteAddr;
@@ -75,7 +75,7 @@ struct SimpleServerData
 
 	int uid;
 	short int port;
-	
+
 	TConnection * pConnectionList;															// die einzelnen verbundenen(!) Clienten
 #ifdef _WIN32
 	CRITICAL_SECTION connectionListCS;
@@ -91,7 +91,7 @@ SimpleServer::SimpleServer()
 	isRunning = false;
 	simpleServerData = new SimpleServerData;
 	memset(simpleServerData, 0, sizeof(SimpleServerData));
-	
+
 #ifdef _WIN32
 	InitializeCriticalSection(&simpleServerData->connectionListCS);
 #endif
@@ -108,7 +108,7 @@ SimpleServer::~SimpleServer()
 #ifdef __linux__
     pthread_mutex_destroy(&simpleServerData->connectionListCS);
 #endif
-	
+
 	delete simpleServerData;
 }
 
@@ -171,7 +171,7 @@ bool SimpleServer::Create(short port)
 	InitializeWinsock();
 	InitializeCriticalSection(&simpleServerData->connectionListCS);
 #endif
-	
+
 	simpleServerData->port = port;
 	char sport[32] = {0};
 	snprintf(sport, 31, "%i", port);
@@ -180,7 +180,7 @@ bool SimpleServer::Create(short port)
 	simpleServerData->hints.ai_socktype = SOCK_STREAM;
 	simpleServerData->hints.ai_protocol = IPPROTO_TCP;
 	simpleServerData->hints.ai_flags = AI_PASSIVE;
-	
+
 	result = getaddrinfo(NULL, sport, &simpleServerData->hints, &simpleServerData->addrInfo);
 	if(result != 0)
 	{
@@ -207,7 +207,7 @@ bool SimpleServer::Create(short port)
 		simpleServerData->pConnectionList = 0;
 #ifdef _WIN32
 		DeleteCriticalSection(&simpleServerData->connectionListCS);
-#endif 
+#endif
 #ifdef __linux__
         pthread_mutex_destroy(&simpleServerData->connectionListCS);
 #endif
@@ -235,7 +235,7 @@ bool SimpleServer::Create(short port)
 #endif
 		return false;
 	}
-	
+
 	freeaddrinfo(simpleServerData->addrInfo);
 
 	// den Socket auf "listening" setzen, damit er Verbindungen annehmen kann
@@ -278,7 +278,7 @@ bool SimpleServer::Create(short port)
 #endif
 		return false;
 	}
-	
+
 	// Die User-definde Methode, welche in Vererbten Klassen genutzt wird, aufrufen.
 	if(OnInitialize() == false)
 	{
@@ -295,7 +295,7 @@ bool SimpleServer::Create(short port)
 #endif
 		return false;
 	}
-	
+
 	isRunning = true;
 	return true;
 }
@@ -390,7 +390,7 @@ bool SimpleServer::Tick(long sec, long usec)
 						//sockaddr_in connectAddr = {0};
                         sockaddr_in connectAddr;
                         memset(&connectAddr, 0, sizeof(sockaddr_in));
-						
+
 						socklen_t namelen = sizeof(sockaddr);
 						getpeername(clientSocket, (sockaddr *)&connectAddr, &namelen);
 
@@ -466,7 +466,7 @@ bool SimpleServer::Tick(long sec, long usec)
 			if(result)
 			{
 				int recvCount = recv(sobj.s, sobj.recvBuffer + sobj.recvBufferIndex, MAX_BUFFER_SIZE - sobj.recvBufferIndex, 0);
-				printf("SimpleServer::tick->recv(): %i\n", recvCount);
+				printf("SimpleServer::tick->recv(): %i bytes received\n", recvCount);
 				if(recvCount == SOCKET_ERROR)
 				{
 #ifdef _WIN32
@@ -518,7 +518,7 @@ bool SimpleServer::Tick(long sec, long usec)
 				{
 					int bytesProcesed = 0;
 					sobj.recvBufferIndex += recvCount;
-					
+
 					do
 					{
 						bytesProcesed = OnData(connectionObject.uid, sobj.recvBuffer, sobj.recvBufferIndex);

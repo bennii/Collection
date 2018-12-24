@@ -5,19 +5,20 @@
  */
 package dummyclient;
 
+import models.Gamelobby;
+import network.Client;
+
 import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.application.Application;
-
-import network.Client;
 
 /**
  *
@@ -33,28 +34,29 @@ public class App extends Application {
 
     private Button joinButton;
     private Button detailsButton;
-    private Button lobbieExitButton;
+    private Button lobbyExitButton;
     private Button detailsExitButton;
 
-    private TableView lobbies;
-    private TableColumn lobbieTitleColumn;
-    private TableColumn lobbiePlayersColumn;
+    private TableView lobbyView;
+    private TableColumn lobbyTitleColumn;
+    private TableColumn lobbyPlayersColumn;
 
     @Override
     public void init() {
-        this.lobbies = new TableView<>();
-        this.lobbies.setEditable(false);
-        this.lobbieTitleColumn = new TableColumn<>("Title");
-        this.lobbiePlayersColumn = new TableColumn<>("Players");
+        this.lobbyView = new TableView<>();
+        this.lobbyView.setEditable(false);
+        this.lobbyTitleColumn = new TableColumn<>("Title");
+        this.lobbyPlayersColumn = new TableColumn<>("Players");
 
-        this.lobbies.getColumns().addAll(this.lobbieTitleColumn, this.lobbiePlayersColumn);
+        this.lobbyView.getColumns().addAll(this.lobbyTitleColumn, this.lobbyPlayersColumn);
+        this.lobbyView.setEditable(false);
 
         this.joinButton = new Button("Join");
         this.detailsButton = new Button("Details");
-        this.lobbieExitButton = new Button("Exit");
+        this.lobbyExitButton = new Button("Exit");
         this.detailsExitButton = new Button("Exit");
 
-        this.lobbieExitButton.setOnAction(event -> this.window.close());
+        this.lobbyExitButton.setOnAction(event -> this.window.close());
         this.detailsExitButton.setOnAction(event -> this.window.close());
         this.joinButton.setOnAction(event -> System.out.println("Selecting a lobby"));
         this.detailsButton.setOnAction(event -> this.window.setScene(this.detailsScene));
@@ -79,9 +81,9 @@ public class App extends Application {
         buttonPanel.setPadding(new Insets(12, 12, 12, 12));
         buttonPanel.getChildren().add(this.joinButton);
         buttonPanel.getChildren().add(this.detailsButton);
-        buttonPanel.getChildren().add(this.lobbieExitButton);
+        buttonPanel.getChildren().add(this.lobbyExitButton);
 
-        lobbieLayout.getChildren().add(this.lobbies);
+        lobbieLayout.getChildren().add(this.lobbyView);
         lobbieLayout.getChildren().add(buttonPanel);
 
         detailsLayout.getChildren().add(this.detailsExitButton);
@@ -90,6 +92,7 @@ public class App extends Application {
         this.window.setScene(this.lobbieScene);
         this.window.setTitle("Gamelobby Test Client");
         this.window.show();
+        this.window.setAlwaysOnTop(true);
     }
 
     /**

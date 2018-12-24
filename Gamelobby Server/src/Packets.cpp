@@ -10,10 +10,14 @@ PACKET::PACKET()
 
 void printPacket(PACKET * _p)
 {
-	printf("%.4X ", _p->opcode); printf("%.4X ", _p->size); 
+	printf("opcode: %.4X\n", _p->opcode);
+    printf("size: %u\ndata: \n", _p->size);
 
-	for(int i = 0; i < _p->size; i++)
-		printf("%.2X", _p->data[i]);
+    if (_p->size > 0)
+    {
+        for(int i = 0; i < _p->size; i++)
+		    printf("%.2X ", _p->data[i]);
+    }
 
 	printf("\n");
 }
