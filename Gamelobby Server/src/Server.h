@@ -11,9 +11,7 @@
 #include "Packetbuilder.h"
 #include "Matchmaking.h"
 
-#ifdef __linux__
 #include "/usr/include/PCSC/wintypes.h"
-#endif
 
 /*
  * Zeitstempel für Debugausgaben.
@@ -30,6 +28,7 @@ class Server : public SimpleServer
 {
   public:
     Server(void);
+    ~Server();
 
     bool Tick(long sec, long usec); // Update (Daten senden/Empfangen etc.)
 

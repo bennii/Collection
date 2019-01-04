@@ -1,36 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dummyclient;
 
 import models.Gamelobby;
-import network.Client;
 
 import javafx.stage.Stage;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Alert;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-/**
- *
- * @author Benjamin
- */
 public class App extends Application {
     private Stage window;
 
     private Scene lobbieScene;
     private Scene detailsScene;
 
-    private Client client;
+    private double width;
+    private double height;
+    private double padding;
+    private double spacing;
 
     private Button joinButton;
     private Button detailsButton;
@@ -38,18 +33,43 @@ public class App extends Application {
     private Button detailsExitButton;
 
     private TableView lobbyView;
-    private TableColumn lobbyTitleColumn;
-    private TableColumn lobbyPlayersColumn;
+    private TableColumn mapColumn;
+    private TableColumn titleColumn;
+    private TableColumn playersColumn;
+
+    private ObservableList<Gamelobby> lobbies;
 
     @Override
     public void init() {
+        this.width = 1200d;
+        this.height = 600d;
+        this.padding = 8d;
+        this.spacing = 12d;
+
+        this.lobbies = FXCollections.observableArrayList();
+        this.lobbies.add(new Gamelobby());
+        this.lobbies.add(new Gamelobby());
+
         this.lobbyView = new TableView<>();
         this.lobbyView.setEditable(false);
-        this.lobbyTitleColumn = new TableColumn<>("Title");
-        this.lobbyPlayersColumn = new TableColumn<>("Players");
+        this.lobbyView.setItems(this.lobbies);
 
-        this.lobbyView.getColumns().addAll(this.lobbyTitleColumn, this.lobbyPlayersColumn);
+        this.titleColumn = new TableColumn<>("Title");
+        this.titleColumn.setMinWidth(this.width / 2 - 50);
+        this.titleColumn.setCellValueFactory(new PropertyValueFactory<Gamelobby, String>("title"));
+
+        this.playersColumn = new TableColumn<>("Players");
+        this.playersColumn.setMinWidth(125);
+        this.playersColumn.setMaxWidth(125);
+        this.playersColumn.setCellValueFactory(new PropertyValueFactory<Gamelobby, String>("players"));
+
+        this.mapColumn = new TableColumn<>("Map");
+        this.mapColumn.setMinWidth(this.width / 5);
+        this.mapColumn.setCellValueFactory(new PropertyValueFactory<Gamelobby, String>("map"));
+
+        this.lobbyView.getColumns().addAll(this.titleColumn, this.playersColumn, this.mapColumn);
         this.lobbyView.setEditable(false);
+        this.lobbyView.setMinHeight(this.height - (this.height / 10));
 
         this.joinButton = new Button("Join");
         this.detailsButton = new Button("Details");
@@ -58,30 +78,24 @@ public class App extends Application {
 
         this.lobbyExitButton.setOnAction(event -> this.window.close());
         this.detailsExitButton.setOnAction(event -> this.window.close());
-        this.joinButton.setOnAction(event -> System.out.println("Selecting a lobby"));
+        this.joinButton.setOnAction(event -> { });
         this.detailsButton.setOnAction(event -> this.window.setScene(this.detailsScene));
-
-        try {
-            this.client = new Client("localhost", 22350);
-            this.client.connect();
-            this.client.sendRaw();
-        } catch (Exception exc) {
-        }
     }
 
     @Override
     public void start(Stage primaryStage) {
-        HBox buttonPanel = new HBox(10);
-        VBox lobbieLayout = new VBox(10);
-        VBox detailsLayout = new VBox(10);
+        HBox buttonPanel = new HBox(this.spacing);
+        VBox lobbieLayout = new VBox(this.spacing);
+        VBox detailsLayout = new VBox(this.spacing);
 
-        this.lobbieScene = new Scene(lobbieLayout, 1200, 600);
-        this.detailsScene = new Scene(detailsLayout, 1200, 600);
+        this.lobbieScene = new Scene(lobbieLayout, this.width, this.height);
+        this.detailsScene = new Scene(detailsLayout, this.width, this.height);
 
-        buttonPanel.setPadding(new Insets(12, 12, 12, 12));
+        buttonPanel.setPadding(new Insets(this.padding, this.padding, this.padding, this.padding));
         buttonPanel.getChildren().add(this.joinButton);
         buttonPanel.getChildren().add(this.detailsButton);
         buttonPanel.getChildren().add(this.lobbyExitButton);
+        buttonPanel.setAlignment(Pos.BASELINE_RIGHT);
 
         lobbieLayout.getChildren().add(this.lobbyView);
         lobbieLayout.getChildren().add(buttonPanel);
@@ -91,13 +105,10 @@ public class App extends Application {
         this.window = primaryStage;
         this.window.setScene(this.lobbieScene);
         this.window.setTitle("Gamelobby Test Client");
-        this.window.show();
         this.window.setAlwaysOnTop(true);
+        this.window.show();
     }
 
-    /**
-     * @param args The command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }

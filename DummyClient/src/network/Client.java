@@ -1,6 +1,5 @@
 package network;
 
-
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
@@ -45,13 +44,16 @@ public class Client {
 
     public void sendRaw() {
         try {
-            byte[] data = {8, 10, 1, 1, 'a'};
+            ByteBuffer buffer = ByteBuffer.allocate(100);
 
-            ByteBuffer buffer = ByteBuffer.wrap(data);
+
+            buffer.put((byte) 10);
+            buffer.putChar((char) 1);
+            buffer.position(0);
 
             this.client.write(buffer);
         } catch (Exception exc) {
-
+            exc.printStackTrace();
         }
     }
 
@@ -60,5 +62,13 @@ public class Client {
     }
 
     public void close() {
+        this.client.close();
+    }
+
+    public static void main(String[] args) {
+        Client c = new Client("localhost", 22350);
+
+        c.connect();
+        c.sendRaw();
     }
 }
