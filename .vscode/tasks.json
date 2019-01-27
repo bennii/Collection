@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Gamelobby Build",
+            "label": "Server Build",
             "command": "make",
             "args": [
                 "--directory=${workspaceFolder}/Gamelobby Server/src/"
@@ -18,7 +18,7 @@
             ]
         },
         {
-            "label": "Gamelobby Clean",
+            "label": "Server Clean",
             "command": "make",
             "args": [
                 "--directory=${workspaceFolder}/Gamelobby Server/src/", "clean"
@@ -32,7 +32,7 @@
             ]
         },
         {
-            "label": "Gamelobby Run",
+            "label": "Server Run",
             "command": "${workspaceFolder}/Gamelobby Server/src/server",
             "args": [ ],
             "group": "build",

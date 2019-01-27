@@ -1,7 +1,6 @@
 package network;
 
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.Future;
 
@@ -9,6 +8,7 @@ public class Client {
     private int port;
     private String address;
     private boolean connected;
+    private ComProtocol comProtocol;
     private InetSocketAddress inetaddr;
     private AsynchronousSocketChannel client;
 
@@ -16,6 +16,7 @@ public class Client {
         this.port = port;
         this.address = address;
         this.connected = false;
+        this.comProtocol = new ComProtocol(1);
 
         try {
             this.inetaddr = new InetSocketAddress(this.address, this.port);
@@ -44,14 +45,7 @@ public class Client {
 
     public void sendRaw() {
         try {
-            ByteBuffer buffer = ByteBuffer.allocate(100);
-
-
-            buffer.put((byte) 10);
-            buffer.putChar((char) 1);
-            buffer.position(0);
-
-            this.client.write(buffer);
+            this.client.write(comProtocol.login("Test", "Test"));
         } catch (Exception exc) {
             exc.printStackTrace();
         }
@@ -62,12 +56,18 @@ public class Client {
     }
 
     public void close() {
-        this.client.close();
+        try {
+            this.client.close();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
         Client c = new Client("localhost", 22350);
 
+        System.out.println("" + 0x0402); 
+       
         c.connect();
         c.sendRaw();
     }
